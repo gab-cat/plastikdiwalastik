@@ -1,0 +1,9 @@
+node_modules
+dist
+.output
+.tanstack
+.vinxi
+.DS_Store
+
+# Full-resolution Wix downloads (291 MB); kept locally, public/media holds the web versions
+assets/originals

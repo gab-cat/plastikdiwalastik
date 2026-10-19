@@ -1,0 +1,495 @@
+/*
+ * Layout model (mirrors the original Wix Harmony site):
+ * - Desktop (>= 1024px): every measurement comes from the 1440px design and scales
+ *   linearly with the viewport. 1 design px = var(--u).
+ * - Mobile (< 1024px): stacked layout from the 390px design. Horizontal sizes scale with
+ *   the viewport (--mw), type and vertical rhythm stop growing at 700px (--mf).
+ */
+
+@font-face {
+  font-family: 'Block Berthold';
+  src: url('/fonts/block-berthold.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-display: 'Block Berthold', 'Arial Black', sans-serif;
+  --font-body: Arial, 'ms pgothic', helvetica, sans-serif;
+  --font-syne: Syne, sans-serif;
+  --font-plex: 'IBM Plex Sans', sans-serif;
+
+  --color-home-green: #046e54;
+  --color-footer-green: #006b51;
+  --color-teal: #01c9a1;
+  --color-title-green: #007056;
+  --color-ink-green: #004c3b;
+  --color-goal-green: #009271;
+  --color-contact-green: #00a37c;
+  --color-comic-green: #026f52;
+  --color-hover-green: #03a988;
+  --color-button-green: #009b7c;
+  --color-menu-brown: #43311f;
+  --color-chapter: #e1eada;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+  font-weight: 400;
+}
+
+img,
+video {
+  display: block;
+}
+
+.site {
+  container-type: inline-size;
+  --u: calc(100cqw / 1440);
+  --mw: calc(100cqw / 390);
+  --mf: calc(min(100cqw, 700px) / 390);
+  min-height: 100vh;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Shared building blocks ---------- */
+
+.section {
+  position: relative;
+  overflow: hidden;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Darkened band behind content strips (About, Short Comics). */
+.band {
+  background: rgb(13 13 13 / 0.11);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Zoom-out-on-hover used by the original galleries. */
+.zoom-media {
+  overflow: hidden;
+}
+.zoom-media img {
+  transform: scale(1.05);
+  transition: transform 2.5s cubic-bezier(0.4, 1, 0.95, 1);
+}
+.zoom-media:hover img {
+  transform: scale(1);
+}
+
+@media (min-width: 1024px) {
+  .m-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023.98px) {
+  .d-only {
+    display: none !important;
+  }
+}
+
+/* ---------- Header ---------- */
+
+.hdr {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 54;
+  background: #fff;
+}
+
+.hdr-logo img,
+.hdr-c4 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nav-label {
+  display: flex;
+  align-items: center;
+  color: #000;
+  font-family: var(--font-display);
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-label .txt {
+  line-height: 1.5;
+}
+.nav-label.is-active .txt {
+  text-decoration: underline;
+}
+.nav-caret {
+  display: block;
+  fill: currentColor;
+  transition: transform 0.2s ease;
+}
+
+.dd-item {
+  display: block;
+  background: #fff;
+  color: var(--color-menu-brown);
+  font-family: var(--font-plex);
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+}
+.dd-item:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 1024px) {
+  .hdr {
+    height: calc(var(--u) * 97.45);
+  }
+  .hdr-logo {
+    position: absolute;
+    left: calc(var(--u) * 39);
+    top: calc(var(--u) * 12);
+    width: calc(var(--u) * 121);
+    height: calc(var(--u) * 79);
+  }
+  .hdr-c4 {
+    position: absolute;
+    left: calc(var(--u) * 1280);
+    top: calc(var(--u) * 4);
+    width: calc(var(--u) * 96);
+    height: calc(var(--u) * 95);
+  }
+  .nav {
+    position: absolute;
+    left: calc(var(--u) * 302);
+    top: calc(var(--u) * 32);
+    display: flex;
+    gap: calc(var(--u) * 56.9);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nav-item {
+    position: relative;
+  }
+  .nav-label {
+    height: calc(var(--u) * 39);
+    padding: calc(var(--u) * 3.415) calc(var(--u) * 11.383);
+    gap: calc(var(--u) * 4.6);
+    font-size: calc(var(--u) * 20.49);
+    box-sizing: border-box;
+  }
+  .nav-caret {
+    width: calc(var(--u) * 9);
+    height: calc(var(--u) * 6.2);
+  }
+  .nav-item:hover > .nav-label,
+  .nav-item:focus-within > .nav-label {
+    background: var(--color-hover-green);
+    color: #fff;
+  }
+  .nav-item:hover > .nav-label .txt,
+  .nav-item:focus-within > .nav-label .txt {
+    text-decoration: none;
+  }
+  .nav-item:hover .nav-caret,
+  .nav-item:focus-within .nav-caret {
+    transform: rotate(180deg);
+  }
+  .dd {
+    position: absolute;
+    left: 0;
+    top: calc(var(--u) * 38);
+    padding: calc(var(--u) * 11.383);
+    display: none;
+  }
+  .nav-item:hover > .dd,
+  .nav-item:focus-within > .dd {
+    display: block;
+  }
+  .dd-list {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--u) * 4);
+    width: calc(var(--u) * 100);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .dd-item {
+    font-size: calc(var(--u) * 15.75);
+    padding-top: calc(var(--u) * 5.625);
+    padding-bottom: calc(var(--u) * 0.75);
+  }
+}
+
+/* Mobile header. The Wix mobile header renders as an empty white bar, so this keeps the
+   same logos and adds the hamburger menu configured (but never shown) in the Wix editor. */
+@media (max-width: 1023.98px) {
+  .hdr {
+    height: calc(var(--mw) * 76);
+  }
+  .hdr-logo {
+    position: absolute;
+    left: calc(var(--mw) * 24);
+    top: calc(var(--mw) * 10);
+    width: calc(var(--mw) * 86);
+    height: calc(var(--mw) * 56);
+  }
+  .hdr-c4 {
+    position: absolute;
+    left: calc(var(--mw) * 238);
+    top: calc(var(--mw) * 8);
+    width: calc(var(--mw) * 60);
+    height: calc(var(--mw) * 60);
+  }
+  .burger {
+    position: absolute;
+    left: calc(var(--mw) * 308);
+    top: calc(var(--mw) * 17);
+    width: calc(var(--mw) * 42);
+    height: calc(var(--mw) * 42);
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .burger svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.mmenu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(0 0 0 / 0.35);
+}
+.mmenu-panel {
+  background: #fff;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: calc(var(--mf) * 10) calc(var(--mw) * 24) calc(var(--mf) * 24);
+}
+.mmenu-close {
+  display: block;
+  margin-left: auto;
+  width: calc(var(--mf) * 42);
+  height: calc(var(--mf) * 42);
+  padding: calc(var(--mf) * 8);
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.mmenu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mmenu .nav-label {
+  font-size: calc(var(--mf) * 16);
+  padding: calc(var(--mf) * 10) calc(var(--mf) * 12);
+}
+.mmenu .nav-label:hover {
+  background: var(--color-hover-green);
+  color: #fff;
+}
+.mmenu .dd-item {
+  font-size: calc(var(--mf) * 14);
+  padding: calc(var(--mf) * 5) calc(var(--mf) * 12) calc(var(--mf) * 5) calc(var(--mf) * 28);
+}
+
+/* ---------- Footer ---------- */
+
+.ftr {
+  background: var(--color-footer-green);
+  height: calc(var(--u) * 131);
+}
+@media (max-width: 1023.98px) {
+  .ftr {
+    height: calc(var(--mw) * 200);
+  }
+}
+
+/* ---------- Sliders ---------- */
+
+.slider {
+  position: relative;
+}
+.slider-rail {
+  will-change: transform;
+}
+.slider-rail > * {
+  flex: none;
+}
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 9999px;
+  padding: 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.slider-btn svg {
+  fill: #fff;
+}
+.slider-btn[hidden] {
+  display: none;
+}
+
+.g-item {
+  position: relative;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.g-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.g-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.g-item:hover .g-info,
+.g-item:focus-visible .g-info {
+  opacity: 1;
+}
+
+/* ---------- Lightbox ---------- */
+
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background: rgb(255 255 255 / 0.97);
+  animation: lb-in 0.2s ease;
+}
+@keyframes lb-in {
+  from {
+    opacity: 0;
+  }
+}
+.lb-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 56px 72px 16px;
+}
+.lb-stage img,
+.lb-stage video {
+  max-width: 100%;
+  max-height: calc(100vh - 120px);
+  object-fit: contain;
+}
+.lb-btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: #000;
+}
+.lb-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+.lb-close {
+  top: 8px;
+  right: 8px;
+}
+.lb-prev {
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%) scaleX(-1);
+}
+.lb-next {
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lb-meta {
+  padding: 0 24px 20px;
+  text-align: center;
+  font-family: var(--font-syne);
+  font-size: 18px;
+  color: #000;
+}
+.lb-count {
+  font-size: 13px;
+  opacity: 0.6;
+}
+@media (max-width: 640px) {
+  .lb-stage {
+    padding: 56px 8px 8px;
+  }
+  .lb-prev,
+  .lb-next {
+    top: auto;
+    bottom: 8px;
+  }
+}
+

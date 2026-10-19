@@ -1,0 +1,4 @@
+@import 'tailwindcss';
+/* Order matters: page layouts must come after the shared component rules they refine. */
+@import './base.css';
+@import './pages.css';
