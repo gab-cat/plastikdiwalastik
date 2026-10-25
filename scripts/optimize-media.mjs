@@ -21,6 +21,11 @@ const CROPS = [
     from: 'd3a468_bf2bfc6c5f844a62bc3c8c38acf8c6f9~mv2.png',
     region: { left: 78, top: 0, width: 442, height: 286 },
   },
+  {
+    name: 'about-band',
+    from: 'd3a468_e2b47797307846ed98d230a28f886c8e~mv2.png',
+    region: { left: 0, top: 35, width: 1920, height: 387 },
+  },
 ]
 
 const exists = (path) => stat(path).then(() => true, () => false)

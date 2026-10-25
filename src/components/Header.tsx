@@ -3,25 +3,23 @@ import { useEffect, useState } from 'react'
 import { nav, type NavItem } from '~/data/nav'
 import { CaretDown, Close, Hamburger } from './icons'
 import { Img } from './Img'
-import { cx } from '~/lib/layout'
 
-function NavLabel({ item, active, onNavigate }: { item: NavItem; active: boolean; onNavigate?: () => void }) {
+function NavLabel({ item, caret = true, onNavigate, onToggle }: { item: NavItem; caret?: boolean; onNavigate?: () => void; onToggle?: () => void }) {
   const content = (
     <>
       <span className="txt">{item.label}</span>
-      {item.children && <CaretDown className="nav-caret" />}
+      {caret && item.children && <CaretDown className="nav-caret" />}
     </>
   )
-  const className = cx('nav-label', active && 'is-active')
   if (!item.href) {
     return (
-      <button type="button" className={className} style={{ border: 0, background: 'none' }} aria-haspopup="true">
+      <button type="button" className="nav-label" style={{ border: 0, background: 'none' }} aria-haspopup="true" onClick={onToggle}>
         {content}
       </button>
     )
   }
   return (
-    <Link to={item.href} className={className} onClick={onNavigate}>
+    <Link to={item.href} className="nav-label" onClick={onNavigate}>
       {content}
     </Link>
   )
@@ -45,6 +43,24 @@ function SubItems({ item, onNavigate, className }: { item: NavItem; onNavigate?:
   )
 }
 
+function MobileItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const [open, setOpen] = useState(false)
+  const toggle = () => setOpen((v) => !v)
+  return (
+    <li>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <NavLabel item={item} caret={false} onNavigate={onNavigate} onToggle={toggle} />
+        {item.children && (
+          <button type="button" className="mmenu-toggle" aria-label={`More ${item.label} pages`} aria-expanded={open} onClick={toggle}>
+            <CaretDown className="nav-caret" />
+          </button>
+        )}
+      </div>
+      {open && <SubItems item={item} onNavigate={onNavigate} className="mmenu-sub" />}
+    </li>
+  )
+}
+
 export function Header() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
@@ -61,8 +77,6 @@ export function Header() {
     }
   }, [open])
 
-  const isActive = (item: NavItem) => item.href === pathname
-
   return (
     <header className="hdr">
       <Link to="/" className="hdr-logo" aria-label="Plastik 'di Walastik home">
@@ -73,7 +87,7 @@ export function Header() {
         <ul className="nav">
           {nav.map((item) => (
             <li key={item.label} className="nav-item">
-              <NavLabel item={item} active={isActive(item)} />
+              <NavLabel item={item} />
               {item.children && (
                 <div className="dd">
                   <SubItems item={item} className="dd-list" />
@@ -93,20 +107,17 @@ export function Header() {
       </button>
 
       {open && (
-        <div className="mmenu m-only" role="dialog" aria-modal="true" aria-label="Menu" onClick={() => setOpen(false)}>
-          <div className="mmenu-panel" onClick={(e) => e.stopPropagation()}>
-            <button type="button" className="mmenu-close" aria-label="Close menu" onClick={() => setOpen(false)}>
-              <Close />
-            </button>
+        <div className="mmenu m-only" role="dialog" aria-modal="true" aria-label="Menu">
+          <button type="button" className="mmenu-close" aria-label="Close menu" onClick={() => setOpen(false)}>
+            <Close />
+          </button>
+          <nav aria-label="Site">
             <ul className="mmenu-list">
               {nav.map((item) => (
-                <li key={item.label}>
-                  <NavLabel item={item} active={isActive(item)} onNavigate={() => setOpen(false)} />
-                  <SubItems item={item} onNavigate={() => setOpen(false)} className="mmenu-list" />
-                </li>
+                <MobileItem key={item.label} item={item} onNavigate={() => setOpen(false)} />
               ))}
             </ul>
-          </div>
+          </nav>
         </div>
       )}
     </header>

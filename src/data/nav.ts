@@ -19,11 +19,11 @@ export const nav: NavItem[] = [
   {
     label: 'PROJECTS',
     children: [
-      { label: 'SHORT COMIC', href: '/blank-4' },
-      { label: 'CAROUSEL', href: '/blank-5' },
+      { label: 'SHORT COMICS', href: '/blank-4' },
+      { label: 'CAROUSELS', href: '/blank-5' },
       { label: 'REELS', href: '/blank-5-1' },
-      { label: 'POSTER', href: '/blank-5-1-1' },
-      { label: 'INFORGRAPHS', href: '/blank-5-1-1-1' },
+      { label: 'POSTERS', href: '/blank-5-1-1' },
+      { label: 'INFOGRAPHICS', href: '/blank-5-1-1-1' },
     ],
   },
   { label: 'DOCUMENTATION', href: '/blank-2' },

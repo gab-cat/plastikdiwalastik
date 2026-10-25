@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import type { CSSProperties } from 'react'
 import { Footer } from '~/components/Footer'
 import { Img } from '~/components/Img'
+import { ParallaxBg } from '~/components/ParallaxBg'
 import { PlayBadge } from '~/components/icons'
 import { useLightbox, type LightboxItem } from '~/components/Lightbox'
 import { documentationPhotos, documentationVideos } from '~/data/galleries'
@@ -18,8 +19,8 @@ const items: LightboxItem[] = [
   ...documentationVideos.map((v) => ({ kind: 'video' as const, video: v.video, poster: v.poster, title: v.name })),
 ]
 
-const itemStyle = (it: { x: number; y: number; boxW: number; boxH: number; mRatio: number }) =>
-  at([it.x, it.y, it.boxW, it.boxH], undefined, { '--mratio': it.mRatio } as CSSProperties)
+const itemStyle = (it: { x: number; y: number; boxW: number; boxH: number; mx: number; my: number; mw: number; mh: number }) =>
+  at([it.x, it.y, it.boxW, it.boxH], [it.mx, it.my, it.mw, it.mh])
 
 function Documentation() {
   const lightbox = useLightbox(items)
@@ -27,23 +28,23 @@ function Documentation() {
 
   return (
     <main>
-      <section className="sec" style={{ '--sh': 3336, '--msh': 13477 } as CSSProperties}>
-        <Img id="d3a468_c15f2947fb914252825eccbee3262474~mv2" eager className="cover" style={{ opacity: 0.61 }} alt="" />
+      <section className="sec docs-sec" style={{ '--sh': 3336, '--msh': 7065 } as CSSProperties}>
+        <ParallaxBg id="d3a468_c4854c55b90543bb8c7ffe9308661050~mv2" opacity={0.6} />
 
-        <div className="docs-gallery d m" style={at([160, 203, 1120, 2268], [24, 178, 342])}>
+        <div className="docs-gallery d m" style={at([160, 203, 1120, 2268], [21, 113, 349, 3406])}>
           {documentationPhotos.map((photo, i) => (
-            <button key={photo.media} type="button" className="g-item docs-item d" style={itemStyle(photo)} onClick={() => lightbox.open(i)} aria-label={photo.alt || `Photo ${i + 1}`}>
-              <Img id={photo.media} sizes="(min-width: 1024px) 20vw, 88vw" alt="" />
+            <button key={photo.media} type="button" className="g-item docs-item d m" style={itemStyle(photo)} onClick={() => lightbox.open(i)} aria-label={photo.alt || `Photo ${i + 1}`}>
+              <Img id={photo.media} sizes="(min-width: 1024px) 20vw, 42vw" alt="" />
             </button>
           ))}
         </div>
 
-        <div className="docs-gallery d m" style={at([160, 2493, 1120, 690], [24, 9977, 342])}>
+        <div className="docs-gallery d m" style={at([160, 2493, 1120, 690], [21, 3544, 349, 3383])}>
           {documentationVideos.map((video, i) => (
             <button
               key={video.video}
               type="button"
-              className="g-item docs-item d"
+              className="g-item docs-item d m"
               style={itemStyle(video)}
               onClick={() => lightbox.open(videoOffset + i)}
               aria-label={`Play video ${video.name}`}

@@ -14,11 +14,22 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Vividly';
+  src: url('/fonts/vividly.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --font-display: 'Block Berthold', 'Arial Black', sans-serif;
+  --font-vividly: Vividly, 'Comic Sans MS', sans-serif;
   --font-body: Arial, 'ms pgothic', helvetica, sans-serif;
   --font-syne: Syne, sans-serif;
   --font-plex: 'IBM Plex Sans', sans-serif;
+  --font-manrope: Manrope, sans-serif;
+  --font-dmsans: 'DM Sans', sans-serif;
 
   --color-home-green: #046e54;
   --color-footer-green: #006b51;
@@ -32,6 +43,9 @@
   --color-button-green: #009b7c;
   --color-menu-brown: #43311f;
   --color-chapter: #e1eada;
+  --color-navy: #002f70;
+  --color-pill-green: #00a37c;
+  --color-close-green: #155e48;
 }
 
 html {
@@ -152,7 +166,7 @@ video {
 .nav-label {
   display: flex;
   align-items: center;
-  color: #000;
+  color: var(--color-navy);
   font-family: var(--font-display);
   white-space: nowrap;
   text-decoration: none;
@@ -161,23 +175,19 @@ video {
 .nav-label .txt {
   line-height: 1.5;
 }
-.nav-label.is-active .txt {
-  text-decoration: underline;
-}
+/* The Wix dropdown arrows are white on the white header: present, but not visible. */
 .nav-caret {
   display: block;
-  fill: currentColor;
-  transition: transform 0.2s ease;
+  fill: #fff;
 }
 
 .dd-item {
   display: block;
-  background: #fff;
-  color: var(--color-menu-brown);
-  font-family: var(--font-plex);
-  font-weight: 500;
+  color: #fff;
+  font-family: var(--font-vividly);
   line-height: 1.5;
   text-decoration: none;
+  white-space: nowrap;
 }
 .dd-item:hover {
   text-decoration: underline;
@@ -203,10 +213,10 @@ video {
   }
   .nav {
     position: absolute;
-    left: calc(var(--u) * 302);
-    top: calc(var(--u) * 32);
+    left: calc(var(--u) * 221);
+    top: calc(var(--u) * 29);
     display: flex;
-    gap: calc(var(--u) * 56.9);
+    gap: calc(var(--u) * 91);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -215,34 +225,22 @@ video {
     position: relative;
   }
   .nav-label {
-    height: calc(var(--u) * 39);
-    padding: calc(var(--u) * 3.415) calc(var(--u) * 11.383);
-    gap: calc(var(--u) * 4.6);
-    font-size: calc(var(--u) * 20.49);
+    height: calc(var(--u) * 40);
+    padding: calc(var(--u) * 4.55) calc(var(--u) * 11.38);
+    gap: calc(var(--u) * 5);
+    font-size: calc(var(--u) * 20.25);
     box-sizing: border-box;
   }
   .nav-caret {
     width: calc(var(--u) * 9);
-    height: calc(var(--u) * 6.2);
+    height: calc(var(--u) * 9);
   }
-  .nav-item:hover > .nav-label,
-  .nav-item:focus-within > .nav-label {
-    background: var(--color-hover-green);
-    color: #fff;
-  }
-  .nav-item:hover > .nav-label .txt,
-  .nav-item:focus-within > .nav-label .txt {
-    text-decoration: none;
-  }
-  .nav-item:hover .nav-caret,
-  .nav-item:focus-within .nav-caret {
-    transform: rotate(180deg);
-  }
+  /* The transparent top padding bridges the gap between the label and the panel. */
   .dd {
     position: absolute;
-    left: 0;
-    top: calc(var(--u) * 38);
-    padding: calc(var(--u) * 11.383);
+    left: calc(var(--u) * 1);
+    top: calc(var(--u) * 40);
+    padding-top: calc(var(--u) * 9);
     display: none;
   }
   .nav-item:hover > .dd,
@@ -252,101 +250,148 @@ video {
   .dd-list {
     display: flex;
     flex-direction: column;
-    gap: calc(var(--u) * 4);
-    width: calc(var(--u) * 100);
+    gap: calc(var(--u) * 1.5);
+    min-width: calc(var(--u) * 165);
     margin: 0;
-    padding: 0;
+    padding: calc(var(--u) * 12) calc(var(--u) * 11) calc(var(--u) * 6);
+    box-sizing: border-box;
     list-style: none;
+    background: var(--color-pill-green);
+    border-radius: calc(var(--u) * 10);
   }
   .dd-item {
-    font-size: calc(var(--u) * 15.75);
-    padding-top: calc(var(--u) * 5.625);
-    padding-bottom: calc(var(--u) * 0.75);
+    font-size: calc(var(--u) * 18.2);
+    height: calc(var(--u) * 28);
+    line-height: calc(var(--u) * 28);
   }
 }
 
-/* Mobile header. The Wix mobile header renders as an empty white bar, so this keeps the
-   same logos and adds the hamburger menu configured (but never shown) in the Wix editor. */
+/* Mobile header: both logos centred, hamburger on the right (Wix mobile layout). */
 @media (max-width: 1023.98px) {
   .hdr {
-    height: calc(var(--mw) * 76);
+    height: calc(var(--mw) * 64);
   }
   .hdr-logo {
     position: absolute;
-    left: calc(var(--mw) * 24);
-    top: calc(var(--mw) * 10);
-    width: calc(var(--mw) * 86);
-    height: calc(var(--mw) * 56);
+    left: calc(var(--mw) * 115.7);
+    top: calc(var(--mw) * 9.9);
+    width: calc(var(--mw) * 67.6);
+    height: calc(var(--mw) * 44.2);
   }
   .hdr-c4 {
     position: absolute;
-    left: calc(var(--mw) * 238);
-    top: calc(var(--mw) * 8);
-    width: calc(var(--mw) * 60);
-    height: calc(var(--mw) * 60);
+    left: calc(var(--mw) * 201);
+    top: calc(var(--mw) * 2);
+    width: calc(var(--mw) * 63);
+    height: calc(var(--mw) * 62);
   }
   .burger {
     position: absolute;
-    left: calc(var(--mw) * 308);
-    top: calc(var(--mw) * 17);
-    width: calc(var(--mw) * 42);
-    height: calc(var(--mw) * 42);
+    left: calc(var(--mw) * 323);
+    top: calc(var(--mw) * 6);
+    width: calc(var(--mw) * 47);
+    height: calc(var(--mw) * 53);
     padding: 0;
     border: 0;
     background: none;
+    color: var(--color-navy);
     cursor: pointer;
   }
   .burger svg {
     width: 100%;
     height: 100%;
+    fill: currentColor;
   }
 }
 
+/* Full-screen mobile menu: centred items, green close button in the corner. */
 .mmenu {
   position: fixed;
   inset: 0;
   z-index: 60;
-  background: rgb(0 0 0 / 0.35);
-}
-.mmenu-panel {
-  background: #fff;
-  max-height: 100%;
   overflow-y: auto;
-  padding: calc(var(--mf) * 10) calc(var(--mw) * 24) calc(var(--mf) * 24);
+  background: #fff;
+  animation: lb-in 0.2s ease;
 }
 .mmenu-close {
-  display: block;
-  margin-left: auto;
-  width: calc(var(--mf) * 42);
-  height: calc(var(--mf) * 42);
-  padding: calc(var(--mf) * 8);
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: var(--color-close-green);
+  color: #fff;
+  cursor: pointer;
+}
+.mmenu-close svg {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+}
+.mmenu-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 54px 6px 24px;
+  list-style: none;
+}
+.mmenu-list > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mmenu .nav-label {
+  height: 40px;
+  padding: 1px 3px;
+  font-size: 24.9px;
+  box-sizing: border-box;
+}
+.mmenu-toggle {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 32px;
+  padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
 }
-.mmenu-list {
-  margin: 0;
-  padding: 0;
+.mmenu .nav-caret {
+  width: 10px;
+  height: 7px;
+  fill: var(--color-navy);
+  transition: transform 0.2s ease;
+}
+.mmenu-toggle[aria-expanded='true'] .nav-caret {
+  transform: rotate(180deg);
+}
+.mmenu .mmenu-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0 0;
+  padding: 8px 20px;
   list-style: none;
-}
-.mmenu .nav-label {
-  font-size: calc(var(--mf) * 16);
-  padding: calc(var(--mf) * 10) calc(var(--mf) * 12);
-}
-.mmenu .nav-label:hover {
-  background: var(--color-hover-green);
-  color: #fff;
+  background: var(--color-pill-green);
+  border-radius: 10px;
 }
 .mmenu .dd-item {
-  font-size: calc(var(--mf) * 14);
-  padding: calc(var(--mf) * 5) calc(var(--mf) * 12) calc(var(--mf) * 5) calc(var(--mf) * 28);
+  font-size: 20px;
+  line-height: 38px;
+  text-align: center;
 }
 
 /* ---------- Footer ---------- */
 
 .ftr {
   background: var(--color-footer-green);
-  height: calc(var(--u) * 131);
+  height: calc(var(--u) * 156);
 }
 @media (max-width: 1023.98px) {
   .ftr {

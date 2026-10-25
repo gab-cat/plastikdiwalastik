@@ -3,64 +3,73 @@ import type { CSSProperties } from 'react'
 import { Footer } from '~/components/Footer'
 import { Img } from '~/components/Img'
 import { useLightbox, type LightboxItem } from '~/components/Lightbox'
+import { Marquee } from '~/components/Marquee'
+import { ParallaxBg } from '~/components/ParallaxBg'
+import { ProjectTitle } from '~/components/ProjectTitle'
 import { Slider } from '~/components/Slider'
-import { carouselRows } from '~/data/galleries'
+import { carouselRows } from '~/data/projects'
+import { at } from '~/lib/layout'
+import { mediaInfo } from '~/lib/media'
 import { seo } from '~/lib/seo'
 
 export const Route = createFileRoute('/blank-5')({
-  head: () => seo('CAROUSEL', '/blank-5'),
+  head: () => seo('CAROUSELS', '/blank-5'),
   component: Carousel,
 })
 
-/*
- * Row geometry from the original: top offset, item width and the starting translate
- * (one hidden copy of the row plus the visible offset) for desktop (d) and mobile (m).
- */
-const rows = [
-  { y: 170, w: 304, start: 1663, my: 106, mw: 267, mstart: 1525 },
-  { y: 516, w: 300, start: 1623, my: 410, mw: 264, mstart: 1510 },
-  { y: 861, w: 300, start: 1623, my: 714, mw: 264, mstart: 1510 },
-  { y: 1208, w: 300, start: 1623, my: 1018, mw: 264, mstart: 1510 },
-  { y: 1560, w: 300, start: 1623, my: 1321, mw: 264, mstart: 1510 },
-]
+// Row tops on the 1440 (d) and 390 (m) canvases. Desktop rows are arrow sliders that start
+// scrolled ~89px into the row; phones get auto-scrolling strips instead.
+const rowY = { d: [313, 646, 979, 1309, 1642, 1974], m: [204, 410, 616, 822, 1032, 1243] }
+const ROW_H = 300
+const GAP = 7
 
-// The first row scrolls continuously, the others advance one post at a time.
-const CONTINUOUS = { mode: 'continuous', pxPerSecond: 36 } as const
-const STEP = { mode: 'step', intervalMs: 4000 } as const
-
-const flat: LightboxItem[] = carouselRows.flatMap((row) => row.map((item) => ({ kind: 'image' as const, media: item.media, title: item.title || undefined })))
+const flat: LightboxItem[] = carouselRows.flatMap((row) => row.items.map((media) => ({ kind: 'image' as const, media, title: row.title })))
 
 function Carousel() {
   const lightbox = useLightbox(flat)
-  let index = 0
+  let offset = 0
 
   return (
     <main>
-      <section className="sec" style={{ '--sh': 1923, '--msh': 1691 } as CSSProperties}>
-        <Img id="d3a468_43e1f6ec543643c5916631d37301f966~mv2" eager className="cover" alt="" />
+      <section className="sec car-sec" style={{ '--sh': 2318, '--msh': 1848 } as CSSProperties}>
+        <ParallaxBg id="d3a468_43e1f6ec543643c5916631d37301f966~mv2" />
+        <ProjectTitle label="CAROUSELS" image={[[509, 127, 421, 153], [82, 94, 230, 83]]} text={[[536, 180, 368], [127, 121, 139]]} />
         {carouselRows.map((row, r) => {
-          const g = rows[r]
-          const style = {
-            '--row-y': g.y,
-            '--row-my': g.my,
-            '--item-w': g.w,
-            '--item-mw': g.mw,
-            '--start-d': g.start,
-            '--start-m': g.mstart,
-          } as CSSProperties
+          const first = offset
+          offset += row.items.length
+          const widths = row.items.map((id) => (ROW_H * mediaInfo(id).w) / mediaInfo(id).h)
+          // Middle-copy start of the looping slider: one full copy plus the visible offset.
+          const start = widths.reduce((sum, w) => sum + w + GAP, 0) + (r === 0 ? 107 : 89)
+          const style = { '--row-y': rowY.d[r], '--start-d': start } as CSSProperties
           return (
-            <div key={r} style={style}>
-              <Slider className="car-row" loop autoplay={r === 0 ? CONTINUOUS : STEP} label={`Carousel ${r + 1}`}>
-                {row.map((item) => {
-                  const i = index++
-                  return (
-                    <button key={item.media} type="button" className="g-item car-item" onClick={() => lightbox.open(i)} aria-label={item.title || `Carousel post ${i + 1}`}>
-                      <Img id={item.media} sizes="(min-width: 1024px) 21vw, 70vw" alt="" />
-                      {item.title && <span className="g-info">{item.title}</span>}
+            <div key={row.title} style={{ display: 'contents' }}>
+              <div className="d-only" style={style}>
+                <Slider className="car-row" loop label={row.title}>
+                  {row.items.map((media, i) => (
+                    <button
+                      key={media}
+                      type="button"
+                      className="g-item car-item"
+                      style={{ width: `calc(var(--u) * ${widths[i]})` }}
+                      onClick={() => lightbox.open(first + i)}
+                      aria-label={`${row.title} ${i + 1}`}
+                    >
+                      <Img id={media} sizes="21vw" alt="" />
+                      <span className="g-info">{row.title}</span>
                     </button>
-                  )
-                })}
-              </Slider>
+                  ))}
+                </Slider>
+              </div>
+              <Marquee
+                items={row.items}
+                desktop={{ height: 187, gap: 20 }}
+                mobile={{ height: 187, gap: r === 1 ? 6 : 20 }}
+                className="m m-only"
+                style={at(undefined, [24, rowY.m[r], 345, 187])}
+                sizes="48vw"
+                onItemClick={(i) => lightbox.open(first + i)}
+                itemLabel={(i) => `${row.title} ${i + 1}`}
+              />
             </div>
           )
         })}

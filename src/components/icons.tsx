@@ -75,3 +75,11 @@ export function TikTok(props: IconProps) {
     </svg>
   )
 }
+
+export function XLogo(props: IconProps) {
+  return (
+    <svg viewBox="0 0 200 200" aria-hidden="true" {...props}>
+      <path d="m1.489 7.342 76.436 102.214L1 192.658h17.317l67.341-72.754 54.42 72.754h58.921L118.26 84.702l71.606-77.347h-17.317l-62.023 67.012L60.409 7.355H1.489zm25.461 12.75h27.071l119.518 159.802h-27.071z" />
+    </svg>
+  )
+}

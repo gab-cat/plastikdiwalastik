@@ -1,7 +1,8 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import type { CSSProperties } from 'react'
 import { Img } from '~/components/Img'
-import { homeCards } from '~/data/galleries'
+import { Marquee } from '~/components/Marquee'
+import { homeRows } from '~/data/home'
 import { at, type Rect } from '~/lib/layout'
 import { seo } from '~/lib/seo'
 
@@ -10,52 +11,51 @@ export const Route = createFileRoute('/')({
   component: Home,
 })
 
-// Desktop card frames on the 1440 canvas, in the original gallery order.
-const cardRects: Rect[] = [
-  [41, 90, 487],
-  [551, 90, 487],
-  [1060, 90, 350],
-  [41, 783, 775],
-  [839, 783, 570],
+// Row tops and label buttons on the 1440 (d) and 390 (m) canvases, relative to the rows section.
+const rowY = { d: [57, 373, 690, 1009, 1320], m: [48, 269, 492, 715, 940] }
+const pills: { d: Rect; m: Rect }[] = [
+  { d: [594, 157, 251, 77], m: [114, 105, 162, 52] },
+  { d: [594, 465, 251, 77], m: [114, 313, 162, 52] },
+  { d: [594, 786, 251, 77], m: [114, 530, 162, 48] },
+  { d: [594, 1114, 251, 77], m: [114, 744, 162, 52] },
+  { d: [594, 1419, 251, 77], m: [114, 956, 162, 52] },
 ]
 
 function Home() {
   return (
     <main>
-      <section className="sec" style={{ '--sh': 835, '--msh': 438 } as CSSProperties}>
-        <Img id="d3a468_c0b4a46532b14c45954548082addd135~mv2" eager className="cover" alt="" />
+      <section className="sec home-hero" style={{ '--sh': 835, '--msh': 519 } as CSSProperties}>
+        <Img id="d3a468_4f17c7dbd3e145c8b54676b313206c78~mv2" eager className="cover" style={{ opacity: 0.7 }} alt="" />
         <Img
           id="d3a468_bb47f26db4524412b291aa148b93cbb9~mv2"
           eager
-          className="d m"
-          style={at([209, 232, 1022, 482], [24, 138, 342, 161])}
-          sizes="(min-width: 1024px) 71vw, 88vw"
+          className="d m fill"
+          style={at([201, 185, 1079, 509], [15, 182, 359, 188])}
+          sizes="(min-width: 1024px) 75vw, 92vw"
           alt="Protektahan natin ang ating mga karagatan sa plastik na di astig!"
         />
       </section>
 
-      <section className="sec home-grid" style={{ '--sh': 1944, '--msh': 2644 } as CSSProperties}>
-        <div className="home-cards">
-          {homeCards.map((card, i) => (
-            <Link
-              key={card.title}
-              to={card.href}
-              className="home-card d"
-              style={at(cardRects[i])}
-              aria-label={card.title}
-              onContextMenu={(e) => e.preventDefault()}
-            >
-              <div className="home-card-media zoom-media" style={{ '--ar': `${card.w} / ${card.h}` } as CSSProperties}>
-                <Img id={card.media} sizes="(min-width: 1024px) 54vw, 80vw" alt="" />
-              </div>
-              <div className="home-card-title">{card.title}</div>
-              <div className="home-card-details" aria-hidden="true">
-                <span className="home-card-counter">{String(i + 1).padStart(2, '0')}</span>
-                <span className="home-card-mtitle">{card.title}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
+      <section className="sec home-rows" style={{ '--sh': 1686, '--msh': 1173 } as CSSProperties}>
+        {homeRows.map((row, i) => (
+          <Marquee
+            key={row.label}
+            items={row.items}
+            desktop={{ height: 285, gap: 24 }}
+            mobile={{ height: 190, gap: 20 }}
+            staticOffset={i === 0 ? -48 : undefined}
+            className="d m"
+            style={at([0, rowY.d[i], 1440, 285], [0, rowY.m[i], 396, 190])}
+            sizes="(min-width: 1024px) 20vw, 40vw"
+          />
+        ))}
+        {/* Dim layer above the rows; it also keeps them from being clicked, as on Wix. */}
+        <div className="home-dim d m" style={at([0, 0, 1440, 1686], [0, 0, 390, 1118])} />
+        {homeRows.map((row, i) => (
+          <Link key={row.label} to={row.href} className="home-pill d m" style={at(pills[i].d, pills[i].m)}>
+            {row.label}
+          </Link>
+        ))}
       </section>
     </main>
   )

@@ -16,9 +16,10 @@ export const Route = createRootRoute({
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500&family=Inter:wght@400&family=Syne:wght@400&display=swap',
+        href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400&family=IBM+Plex+Sans:wght@500&family=Inter:wght@400&family=Manrope:wght@400&family=Syne:wght@400&display=swap',
       },
       { rel: 'preload', href: '/fonts/block-berthold.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
+      { rel: 'preload', href: '/fonts/vividly.woff2', as: 'font', type: 'font/woff2', crossOrigin: 'anonymous' },
       { rel: 'stylesheet', href: appCss },
       { rel: 'icon', type: 'image/png', href: '/favicon.png' },
       { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
