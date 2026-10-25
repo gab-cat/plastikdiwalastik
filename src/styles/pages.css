@@ -9,6 +9,8 @@
 .sec {
   position: relative;
   overflow: hidden;
+  /* Background blend modes mix only with the section's own colour. */
+  isolation: isolate;
   scroll-margin-top: var(--hdr-h, 0px);
 }
 
@@ -400,10 +402,20 @@
     font-size: calc(var(--mf) * 14.52);
     line-height: calc(var(--mf) * 15.97);
   }
+  /* Wix shows the banner photos at twice the section size on phones. */
+  .contact-bg {
+    transform: scale(2);
+  }
+  /* Phone-only button style on Wix: navy outline and text. */
   .contact-more {
-    border-width: 2px;
-    border-radius: calc(var(--mw) * 6);
-    font-size: calc(var(--mf) * 14);
+    border-color: rgb(13 12 78);
+    border-radius: calc(var(--mw) * 10.37);
+    color: rgb(13 12 78);
+    font-size: calc(var(--mf) * 16.6);
+    letter-spacing: 0.01em;
+  }
+  .contact-more:hover {
+    background: rgb(13 12 78);
   }
   .cform {
     font-size: calc(var(--mf) * 14);
@@ -462,6 +474,11 @@
 .comic-item {
   height: 100%;
   aspect-ratio: var(--ar);
+}
+.comic-item {
+  overflow: hidden;
+  --tint: rgb(21 94 72);
+  --tint-opacity: 0.6;
 }
 .comic-item .g-info {
   font-family: var(--font-display);
@@ -572,11 +589,12 @@
 }
 .car-item {
   height: 100%;
+  cursor: default;
 }
-.car-item .g-info {
-  font-family: var(--font-display);
-  color: #fff;
-  text-align: left;
+.car-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 /* White discs with a navy chevron. */
 .car-row .slider-btn {
@@ -594,11 +612,6 @@
   .car-row .slider-rail {
     gap: calc(var(--u) * 7);
     --start: calc(var(--u) * var(--start-d));
-  }
-  .car-item .g-info {
-    padding: 0 calc(var(--u) * 12) calc(var(--u) * 10);
-    font-size: calc(var(--u) * 36.4);
-    line-height: 1.1;
   }
   .car-row .slider-btn {
     width: calc(var(--u) * 43);
@@ -622,6 +635,27 @@
   inset: -4.5% -1.3% 1.9%;
 }
 
+/* Hover tint over gallery tiles (Wix item overlay). */
+.g-tint {
+  position: absolute;
+  inset: 0;
+  background: var(--tint);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.g-item:hover .g-tint,
+.g-item:focus-visible .g-tint {
+  opacity: var(--tint-opacity);
+}
+.poster-item {
+  --tint: rgb(21 94 72);
+  --tint-opacity: 0.3;
+}
+.zoom-media img {
+  transition-duration: 3s;
+}
+
 /* ---------- Documentation ---------- */
 
 .docs-sec {
@@ -637,6 +671,8 @@
 }
 .docs-item {
   overflow: hidden;
+  --tint: rgb(0 169 115);
+  --tint-opacity: 0.6;
 }
 .docs-item img {
   transform: scale(1.05);

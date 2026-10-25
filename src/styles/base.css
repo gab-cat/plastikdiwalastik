@@ -390,12 +390,27 @@ video {
 /* ---------- Footer ---------- */
 
 .ftr {
-  background: var(--color-footer-green);
-  height: calc(var(--u) * 156);
+  position: relative;
+  background: #fff;
+  height: calc(var(--u) * 136);
+}
+.ftr-text {
+  color: var(--color-pill-green);
+  text-align: center;
+}
+@media (min-width: 1024px) {
+  .ftr-text {
+    font-size: calc(var(--u) * 15.94);
+    line-height: calc(var(--u) * 22.31);
+  }
 }
 @media (max-width: 1023.98px) {
   .ftr {
-    height: calc(var(--mw) * 200);
+    height: calc(var(--mw) * 312);
+  }
+  .ftr-text {
+    font-size: calc(var(--mf) * 14);
+    line-height: calc(var(--mf) * 19.6);
   }
 }
 
@@ -457,84 +472,116 @@ video {
   opacity: 1;
 }
 
-/* ---------- Lightbox ---------- */
+/* ---------- Lightbox (Wix expand mode) ---------- */
 
 .lb {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  background: rgb(255 255 255 / 0.97);
   animation: lb-in 0.2s ease;
+  --lb-pad: 45px;
+  --lb-arrow: 33px;
 }
 @keyframes lb-in {
   from {
     opacity: 0;
   }
 }
+.lb-dark,
+.lb-dark-compact {
+  background: #000;
+}
+.lb-dark-compact {
+  --lb-pad: 5px;
+  --lb-arrow: 24px;
+}
+.lb-overlay {
+  background: rgb(21 94 72 / 0.53);
+}
 .lb-stage {
-  position: relative;
+  position: absolute;
+  inset: calc(var(--lb-pad) + 46px) 0 calc(var(--lb-pad)) 0;
   display: grid;
   place-items: center;
-  min-height: 0;
-  padding: 56px 72px 16px;
+}
+.lb-dark-compact .lb-stage {
+  inset: 40px 0 4px;
+}
+.lb-overlay .lb-stage {
+  inset: 0;
+  padding: 126px 0 57px;
 }
 .lb-stage img,
 .lb-stage video {
   max-width: 100%;
-  max-height: calc(100vh - 120px);
+  max-height: 100%;
   object-fit: contain;
+}
+.lb-count {
+  position: absolute;
+  top: var(--lb-pad);
+  left: var(--lb-pad);
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 17px;
+  line-height: 24px;
 }
 .lb-btn {
   position: absolute;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  padding: 0;
   border: 0;
+  border-radius: 50%;
   background: none;
   cursor: pointer;
-  color: #000;
 }
 .lb-btn svg {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
+  fill: #fff;
 }
 .lb-close {
-  top: 8px;
-  right: 8px;
+  top: calc(var(--lb-pad) + 3px);
+  right: calc(var(--lb-pad) + 3px);
+  width: 18px;
+  height: 18px;
 }
-.lb-prev {
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%) scaleX(-1);
+.lb-close svg {
+  width: 18px;
+  height: 18px;
 }
-.lb-next {
-  right: 12px;
+.lb-arrow {
   top: 50%;
+  width: var(--lb-arrow);
+  height: var(--lb-arrow);
+  background: #000;
   transform: translateY(-50%);
 }
-.lb-meta {
-  padding: 0 24px 20px;
-  text-align: center;
-  font-family: var(--font-syne);
-  font-size: 18px;
-  color: #000;
+.lb-arrow svg {
+  width: 19px;
+  height: 19px;
 }
-.lb-count {
-  font-size: 13px;
-  opacity: 0.6;
+.lb-prev {
+  left: var(--lb-pad);
+}
+.lb-prev svg {
+  transform: scaleX(-1);
+}
+.lb-next {
+  right: var(--lb-pad);
+}
+/* Short Comics: the picture alone; its controls exist but are invisible, as on Wix. */
+.lb-overlay .lb-count,
+.lb-overlay .lb-btn {
+  opacity: 0;
+}
+.lb-overlay .lb-btn:focus-visible {
+  opacity: 1;
 }
 @media (max-width: 640px) {
-  .lb-stage {
-    padding: 56px 8px 8px;
+  .lb {
+    --lb-pad: 12px;
   }
-  .lb-prev,
-  .lb-next {
-    top: auto;
-    bottom: 8px;
+  .lb-overlay .lb-stage {
+    padding: 64px 0 32px;
   }
 }
-

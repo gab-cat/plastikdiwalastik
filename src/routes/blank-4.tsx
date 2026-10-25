@@ -15,11 +15,15 @@ export const Route = createFileRoute('/blank-4')({
   component: ShortComic,
 })
 
-// Phones get an auto-scrolling strip of chapters 1-5 instead of the desktop slider.
+// Phones get an auto-scrolling strip of chapters 1-5 instead of the desktop slider; as on
+// Wix, tapping it doesn't open anything.
 const MOBILE_CHAPTERS = 5
 
 function ShortComic() {
-  const lightbox = useLightbox(comicChapters.map((c) => ({ kind: 'image', media: c.media, title: c.title })))
+  const lightbox = useLightbox(
+    comicChapters.map((c) => ({ kind: 'image', media: c.media, title: c.title })),
+    'overlay',
+  )
 
   return (
     <main>
@@ -41,6 +45,7 @@ function ShortComic() {
               aria-label={chapter.title}
             >
               <Img id={chapter.media} sizes="25vw" alt="" />
+              <span className="g-tint" />
               <span className="g-info">{chapter.title}</span>
             </button>
           ))}
@@ -52,8 +57,6 @@ function ShortComic() {
           className="m m-only"
           style={at(undefined, [36, 286, 322, 315])}
           sizes="65vw"
-          onItemClick={(i) => lightbox.open(i)}
-          itemLabel={(i) => comicChapters[i].title}
         />
       </section>
       <Footer />

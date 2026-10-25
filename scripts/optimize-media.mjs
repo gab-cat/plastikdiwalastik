@@ -22,6 +22,11 @@ const CROPS = [
     region: { left: 78, top: 0, width: 442, height: 286 },
   },
   {
+    name: 'c4-footer',
+    from: 'd3a468_b61bd3527ef64ff6a3dbe2cb1eb0cc82~mv2.png',
+    region: { left: 3, top: 9, width: 77, height: 65 },
+  },
+  {
     name: 'about-band',
     from: 'd3a468_e2b47797307846ed98d230a28f886c8e~mv2.png',
     region: { left: 0, top: 35, width: 1920, height: 387 },

@@ -1,5 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import type { CSSProperties } from 'react'
+import { Footer } from '~/components/Footer'
 import { Img } from '~/components/Img'
 import { Marquee } from '~/components/Marquee'
 import { homeRows } from '~/data/home'
@@ -25,7 +26,7 @@ function Home() {
   return (
     <main>
       <section className="sec home-hero" style={{ '--sh': 835, '--msh': 519 } as CSSProperties}>
-        <Img id="d3a468_4f17c7dbd3e145c8b54676b313206c78~mv2" eager className="cover" style={{ opacity: 0.7 }} alt="" />
+        <Img id="d3a468_4f17c7dbd3e145c8b54676b313206c78~mv2" eager className="cover" style={{ opacity: 0.7, mixBlendMode: 'multiply' }} alt="" />
         <Img
           id="d3a468_bb47f26db4524412b291aa148b93cbb9~mv2"
           eager
@@ -57,6 +58,7 @@ function Home() {
           </Link>
         ))}
       </section>
+      <Footer />
     </main>
   )
 }

@@ -29,12 +29,14 @@ function Documentation() {
   return (
     <main>
       <section className="sec docs-sec" style={{ '--sh': 3336, '--msh': 7065 } as CSSProperties}>
-        <ParallaxBg id="d3a468_c4854c55b90543bb8c7ffe9308661050~mv2" opacity={0.6} />
+        {/* Wix multiplies the photo into the green section colour. */}
+        <ParallaxBg id="d3a468_c4854c55b90543bb8c7ffe9308661050~mv2" opacity={0.6} blend="multiply" />
 
         <div className="docs-gallery d m" style={at([160, 203, 1120, 2268], [21, 113, 349, 3406])}>
           {documentationPhotos.map((photo, i) => (
             <button key={photo.media} type="button" className="g-item docs-item d m" style={itemStyle(photo)} onClick={() => lightbox.open(i)} aria-label={photo.alt || `Photo ${i + 1}`}>
               <Img id={photo.media} sizes="(min-width: 1024px) 20vw, 42vw" alt="" />
+              <span className="g-tint" />
             </button>
           ))}
         </div>
@@ -50,6 +52,7 @@ function Documentation() {
               aria-label={`Play video ${video.name}`}
             >
               <Img id={video.poster} sizes="(min-width: 1024px) 20vw, 88vw" alt="" />
+              <span className="g-tint" />
               <PlayBadge className="docs-play" />
             </button>
           ))}

@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { CSSProperties } from 'react'
+import { Footer } from '~/components/Footer'
 import { Img } from '~/components/Img'
 import { at, type Rect } from '~/lib/layout'
 import { seo } from '~/lib/seo'
@@ -131,6 +132,7 @@ function About() {
           <Img id="d3a468_dcac236da0e44f10a4c910466f33e25a~mv2" sizes="(min-width: 1024px) 30vw, 53vw" alt="PAMALAKAYA Navotas logo" />
         </div>
       </section>
+      <Footer />
     </main>
   )
 }

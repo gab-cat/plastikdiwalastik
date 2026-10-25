@@ -15,7 +15,7 @@ export const Route = createFileRoute('/blank-5-1-1')({
 })
 
 function Posters() {
-  const lightbox = useLightbox(posters.map((p) => ({ kind: 'image', media: p.media })))
+  const lightbox = useLightbox(posters.map((p) => ({ kind: 'image', media: p.media })), 'dark-compact')
 
   return (
     <main>
@@ -25,6 +25,7 @@ function Posters() {
         {posters.map((p, i) => (
           <button key={p.media} type="button" className="g-item poster-item zoom-media d m" style={at(p.d, p.m)} onClick={() => lightbox.open(i)} aria-label={`Poster ${i + 1}`}>
             <Img id={p.media} sizes="(min-width: 1024px) 25vw, 42vw" alt="" />
+            <span className="g-tint" />
           </button>
         ))}
       </section>

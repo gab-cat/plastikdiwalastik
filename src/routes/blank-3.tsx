@@ -64,7 +64,7 @@ function Contact() {
       </section>
 
       <section className="sec" style={{ ...sec(375, 207), background: 'var(--color-footer-green)' }}>
-        <Img id="d3a468_23a12e49f1944250bb301f77b8adb425~mv2" className="cover" alt="" />
+        <Img id="d3a468_23a12e49f1944250bb301f77b8adb425~mv2" className="cover contact-bg" alt="" />
         <Img id="logo-plastik" className="d m fill" style={at([549, 73, 332, 230], [111, 48, 169, 110])} sizes="(min-width: 1024px) 24vw, 44vw" alt="Plastik 'di Walastik" />
       </section>
 
@@ -86,7 +86,7 @@ function Contact() {
       </section>
 
       <section className="sec" style={{ ...sec(375, 207), background: '#000' }}>
-        <Img id="d3a468_ad11fe679c0c4c24a2fba691b4a6cf21~mv2" className="cover" alt="" />
+        <Img id="d3a468_ad11fe679c0c4c24a2fba691b4a6cf21~mv2" className="cover contact-bg" alt="" />
         <Img
           id="d3a468_9bd1dc6e67534571a63bd64e35e118fe~mv2"
           className="d m fill"
@@ -120,7 +120,7 @@ function Contact() {
       </section>
 
       <section className="sec" style={{ ...sec(375, 207), background: 'rgb(75 70 152)' }}>
-        <Img id="d3a468_c4d19580005040ee867f24ffb6a17853~mv2" className="cover" style={{ opacity: 0.89 }} alt="" />
+        <Img id="d3a468_c4d19580005040ee867f24ffb6a17853~mv2" className="cover contact-bg" style={{ opacity: 0.89, mixBlendMode: 'luminosity' }} alt="" />
         <Img
           id="d3a468_f020d1ca4d7249628a52619b12e25e87~mv2"
           className="d m fill"
@@ -129,7 +129,7 @@ function Contact() {
           alt="PAMALAKAYA Navotas logo"
         />
       </section>
-      <Footer desktopOnly />
+      <Footer />
     </main>
   )
 }

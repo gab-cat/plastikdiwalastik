@@ -78,8 +78,15 @@ Intentional:
 - Images are served as resized WebP files instead of through Wix's image CDN.
 - The contact form needs a form service or email address to deliver messages (see above).
 - Reels use the browser's video controls instead of the Wix player bar, and only play while on screen.
+- Gallery tiles that open nothing on Wix (Carousels, Infographics, the phone strips) aren't clickable here,
+  instead of showing a pointer cursor that does nothing.
 - In the phone menu, the submenu arrows are visible and open the Projects/About/Contact pages list.
 - The Contact Us submenu anchors (`#earth-island`, `#pamalakaya`) scroll to those sections; on Wix they go nowhere.
+
+Matched on purpose (easy to miss): Posters and Documentation open Wix's black full-screen viewer with a
+`02 / 09` counter, Short Comics opens the picture over a dimmed page, and tiles get the same green hover tints.
+Home's hero and the Documentation background use Wix's "multiply" blend; the Pamalakaya banner on Contact Us
+uses "luminosity".
 
 Kept as-is from the original, so you may want to fix them:
 

@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, type CSSProperties } from 'react'
 import { Img } from './Img'
 
 /** Background image that scrolls slower than the page, like the Wix "parallax" background. */
-export function ParallaxBg({ id, speed = 0.3, opacity = 1 }: { id: string; speed?: number; opacity?: number }) {
+export function ParallaxBg({ id, speed = 0.3, opacity = 1, blend }: { id: string; speed?: number; opacity?: number; blend?: CSSProperties['mixBlendMode'] }) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function ParallaxBg({ id, speed = 0.3, opacity = 1 }: { id: string; speed
   }, [speed])
 
   return (
-    <div className="parallax-bg" ref={ref} aria-hidden="true" style={{ opacity }}>
+    <div className="parallax-bg" ref={ref} aria-hidden="true" style={{ opacity, mixBlendMode: blend }}>
       <Img id={id} eager alt="" />
     </div>
   )

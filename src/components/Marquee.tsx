@@ -18,9 +18,6 @@ interface Props {
   /** Desktop only: hold the row still at this offset (design px) instead of scrolling. */
   staticOffset?: number
   sizes?: string
-  /** Makes the items buttons (e.g. to open a lightbox); otherwise the strip is decorative. */
-  onItemClick?: (index: number) => void
-  itemLabel?: (index: number) => string
   className?: string
   style?: CSSProperties
 }
@@ -35,10 +32,11 @@ const cycle = (items: string[], { height, gap }: MarqueeMetrics) =>
   }, 0)
 
 /**
- * Auto-scrolling strip (Home project rows, Short Comics and Infographics on phones). The
- * items are rendered twice so translating the rail by half its width loops seamlessly.
+ * Decorative auto-scrolling strip (Home project rows; Short Comics, Carousels and
+ * Infographics on phones). The items are rendered twice so translating the rail by half
+ * its width loops seamlessly.
  */
-export function Marquee({ items, desktop, mobile, staticOffset, sizes = '20vw', onItemClick, itemLabel, className, style }: Props) {
+export function Marquee({ items, desktop, mobile, staticOffset, sizes = '20vw', className, style }: Props) {
   const vars = {
     ...style,
     '--mq-dur-d': `${(cycle(items, desktop) / SPEED).toFixed(2)}s`,
@@ -51,34 +49,15 @@ export function Marquee({ items, desktop, mobile, staticOffset, sizes = '20vw', 
   const copy = (key: string) =>
     items.map((id, i) => {
       const { w, h } = mediaInfo(id)
-      const style = { aspectRatio: `${w} / ${h}` }
-      if (!onItemClick) {
-        return (
-          <div key={`${key}${i}`} className="mq-item" style={style}>
-            <Img id={id} sizes={sizes} alt="" />
-          </div>
-        )
-      }
-      // The duplicate copy is visual only; keyboard and screen readers get one set.
-      const dup = key === 'b'
       return (
-        <button
-          key={`${key}${i}`}
-          type="button"
-          className="mq-item g-item"
-          style={style}
-          onClick={() => onItemClick(i)}
-          aria-label={itemLabel?.(i)}
-          aria-hidden={dup || undefined}
-          tabIndex={dup ? -1 : undefined}
-        >
+        <div key={`${key}${i}`} className="mq-item" style={{ aspectRatio: `${w} / ${h}` }}>
           <Img id={id} sizes={sizes} alt="" />
-        </button>
+        </div>
       )
     })
 
   return (
-    <div className={cx('mq', staticOffset !== undefined && 'is-static-d', className)} style={vars} aria-hidden={onItemClick ? undefined : true}>
+    <div className={cx('mq', staticOffset !== undefined && 'is-static-d', className)} style={vars} aria-hidden="true">
       <div className="mq-rail">
         {copy('a')}
         {copy('b')}
